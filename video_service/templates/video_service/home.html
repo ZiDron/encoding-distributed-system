@@ -1,5 +1,22 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load i18n %}
+
 {% block content %}
-<h2>Добро пожаловать на видео сервис</h2>
-Вы можете нихуя
+  <ul>
+    <li>
+      <a href="{% url 'video_service:model_form_upload' %}">Загрузить видео</a>
+    </li>
+  </ul>
+
+  {% if user.is_authenticated %}
+  <p>Ваши файлы:</p>
+  <ul>
+    {% for obj in user.your_documents.all %}
+      <li>
+        <a href="{{ obj.document.url }}">{{ obj.document.name }}</a>
+        <small>(Uploaded at: {{ obj.uploaded_at }})</small>
+      </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 {% endblock %}

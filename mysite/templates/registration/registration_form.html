@@ -4,17 +4,6 @@
 Регистрация
 {% endblock %}
 
-{% block header %}
-	{% if user.is_authenticated %}
-	    {% trans "Logged in" %}: {{ user.username }}
-	    (<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a>)
-	{% else %}
-	    <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
-	{% endif %}
-    <a href="{% url 'video_service:home' %}">{% trans "Home" %}</a>
-    <hr />
-{% endblock %}
-
 {% block content %}
 <h1>Регистрация</h1>
 <form method="post" action=""> {% csrf_token %}
