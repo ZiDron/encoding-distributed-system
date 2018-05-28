@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>My Project</title>
-    </head>
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
-    <body>
-    {% block content %}{% endblock content %}
-    </body>
+<head>
+    <link rel="stylesheet" href="/style.css" />
+    <title>{% block title %}Лучший сервис в мире {% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        {% block header %}
+	{% if user.is_authenticated %}
+	{% trans "Logged in" %}: {{ user.username }}
+	(<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a>)
+	{% else %}
+	<a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
+	{% endif %}
+	<hr />
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</body>
+
 </html>

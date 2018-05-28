@@ -3,7 +3,7 @@
 <h1>Авторизация</h1>
 
 {% if user.is_authenticated %}
-Что такое, {{ user.username }}? Вы же уже авторизорваны.
+{{ user.username }}, вы же уже авторизорваны.
 Впрочем, всегда можно <a href="{% url 'auth_logout' %}">выйти</a>.<br/><br/>
 {% else %}
 
