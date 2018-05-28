@@ -1,20 +1,37 @@
 from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
 
 from .models import Document
-from .forms import DocumentForm
-
-
-# def home(request):
-#     # context = {
-#     #     'product_list': models.Product.objects.filter(is_active=True)[:settings.SHOP_LAST_INCOMING],
-#     #     }
-#     return render(request, 'video_service/home.html')
+from .forms import DocumentForm, RequestForm
 
 
 def home(request):
     documents = Document.objects.all()
     return render(request, 'video_service/home.html', {'documents': documents})
+
+
+def process(request, name):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = RequestForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.user = request.user
+                for i in Document.objects.all():
+                    if i.document.name == 'documents/' + name:
+                        obj.document = i
+                print("OLOLOLOLO")
+                print(obj)
+                obj.save()
+                return redirect('/')
+        else:
+            form = RequestForm()
+        return render(request, 'video_service/request.html', {
+            'form': form
+        })
+    else:
+        return redirect('auth_login')
+
+    return render(request, 'video_service/processing.html')
 
 
 def model_form_upload(request):
