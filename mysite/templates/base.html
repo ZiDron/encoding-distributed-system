@@ -1,24 +1,58 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
 {% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <link rel="stylesheet" href="/style.css" />
+    <script src="{% bootstrap_jquery_url %}"></script>
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
     <title>{% block title %}Лучший сервис в мире {% endblock %}</title>
 </head>
 
 <body>
+{% block bootstrap3_content %}
     <div id="header">
         {% block header %}
-	        {% if user.is_authenticated %}
-	            {% trans "Logged in" %}: {{ user.username }}
-	            (<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a>)
-	        {% else %}
-	             <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
-	        {% endif %}
-            <a href="{% url 'video_service:home' %}">{% trans "Home" %}</a>
-            <hr />
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url 'video_service:home' %}">{% trans "Encoding" %}</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if user.is_authenticated %}
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Пункт меню</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li><a href="{% url 'auth_login' %}">{% trans "Log in" %}</a></li>
+                            {% endif %}
+
+
+
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
         {% endblock %}
     </div>
 
@@ -30,6 +64,6 @@
         {% block footer %}
         {% endblock %}
     </div>
-</body>
-
+    </body>
+{% endblock %}
 </html>
