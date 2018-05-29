@@ -22,8 +22,7 @@
   <ul>
     {% for obj in user.user_request.all %}
       <li>
-        <a href="{{ obj.document.url }}">{{ obj.name }}</a>
-        <small>(Uploaded at: {{ kok }})</small>
+        <a href="{% url 'video_service:show_request' obj.name %}">{{ obj.name }}</a>
       </li>
     {% endfor %}
   </ul>
