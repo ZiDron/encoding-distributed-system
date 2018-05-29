@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from subprocess import Popen, PIPE
 
 
 class Document(models.Model):
@@ -14,3 +15,11 @@ class Request(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='requets_list')
     description = models.BooleanField()
     name = models.CharField(max_length=255, blank=True)
+
+
+    def get_description(self):
+        if self.description:
+            process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -i \""
+                            + self.document.document.path + "\"", shell=True, stdout=PIPE)
+            data = process.communicate()
+            print(data)
