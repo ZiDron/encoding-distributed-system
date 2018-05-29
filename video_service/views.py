@@ -19,9 +19,8 @@ def process(request, name):
                 for i in Document.objects.all():
                     if i.document.name == 'documents/' + name:
                         obj.document = i
-                print("OLOLOLOLO")
-                print(obj)
                 obj.save()
+                obj.get_description()
                 return redirect('/')
         else:
             form = RequestForm()
