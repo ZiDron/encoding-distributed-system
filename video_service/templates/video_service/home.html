@@ -29,11 +29,26 @@
             </ul>
             <p>Ваши запросы:</p>
             <ul>
+            <div class="bs-example">
+                    <div class="panel-group" id="accordion">
                 {% for obj in user.user_request.all %}
-                    <li>
-                        <a href="{% url 'video_service:show_request' obj.name %}">{{ obj.name }}</a>
-                    </li>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">{{ obj.name }}</a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>DETAILS...</p>
+                                </div>
+                            </div>
+                        </div>
+
                 {% endfor %}
+                    </div>
+            </div>
             </ul>
         {% endif %}
 {% endblock %}
