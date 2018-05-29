@@ -1,21 +1,30 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}
-Регистрация
+    Регистрация
 {% endblock %}
 
 {% block content %}
-<h1>Регистрация</h1>
-<form method="post" action=""> {% csrf_token %}
-<dl class="register">
-{% for field in form %}
-    <dt>{{ field.label_tag }}</dt>
-    <dd class="clearfix">{{ field }}
-    {% if field.help_text %}<div class="clearfix">{{ field.help_text }}</div>{% endif %}
-    {% if field.errors %}<div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}
-    </dd>
-{% endfor %}
-</dl>
-<input type="submit" value="Зарегистрироваться" / class="clearfix">
-</form>
+    <div class="register-page">
+        <div class="form">
+            <form class="login-form" method="post" action=""> {% csrf_token %}
+                <dl class="register">
+                </dl>
+                {% for field in form %}
+                    <dt>{{ field.label_tag }}</dt>
+                    <dd class="clearfix">{{ field }}
+                        {#                        {% if field.help_text %}<div class="clearfix">{{ field.help_text }}</div>{% endif %}#}
+                        {#                        {% if field.errors %}<div class="myerrors clearfix">{{ field.errors }}</div>{% endif %}#}
+                    </dd>
+                {% endfor %}
+                {#                <input type="text" placeholder="username"/>#}
+                {#                <input type="password" placeholder="password"/>#}
+                <input type="submit" value="Зарегистрироваться" / class="clearfix">
+                <p class="message"><a href="{% url 'auth_password_reset' %}">Восстановление пароля</a></p>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('id_username').focus()
+    </script>
 {% endblock %}
