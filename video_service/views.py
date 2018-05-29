@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Document
+from .models import Document, Request
 from .forms import DocumentForm, RequestForm
 
 
@@ -30,7 +30,7 @@ def process(request, name):
     else:
         return redirect('auth_login')
 
-    return render(request, 'video_service/processing.html')
+    return render(request, 'video_service/show_request.html')
 
 
 def model_form_upload(request):
@@ -49,3 +49,12 @@ def model_form_upload(request):
         })
     else:
         return redirect('auth_login')
+
+
+def show_request(request, name):
+    if request.user.is_authenticated:
+        user_request = get_object_or_404(Request, name=name)
+        return render(request, 'video_service/show_request.html', {'request': user_request})
+    else:
+        return redirect('auth_login')
+    return render(request, 'video_service/show_request.html')
