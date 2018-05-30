@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Применить</button>
-  </form>
-
-  <p><a href="{% url 'video_service:home' %}">Вернуться домой</a></p>
-
+            <div class="request-page">
+            <div class="form">
+                <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                    <dl class="register">
+                    </dl>
+                    {% for field in form %}
+                        <dt>{{ field.label_tag }}</dt>
+                        <dd class="clearfix">{{ field }}</dd>
+                    {% endfor %}
+                    <input type="submit" value="Загрузить" / class="clearfix">
+                    <button type="submit">Применить</button>
+                </form>
+            </div>
+        </div>
 {% endblock %}
