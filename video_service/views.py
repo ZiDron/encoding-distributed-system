@@ -10,7 +10,12 @@ def home(request):
     if request.user.is_authenticated:
         documents = request.user.your_documents.all()
         doc_name = [os.path.basename(i.document.name) for i in documents]
-        return render(request, 'video_service/home.html', {'doc_name': doc_name})
+        requests = request.user.user_request.all()
+        request_name = [os.path.basename(i.out_document.name) for i in requests]
+        print(request_name)
+        return render(request, 'video_service/home.html', {'doc_name': doc_name,
+                                                           'req_name': request_name},
+                      )
     else:
         return render(request, 'video_service/home.html')
 
