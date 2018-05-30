@@ -26,6 +26,8 @@
                 </li>
             {% endfor %}
         </ul>
+    {% endif %}
+        {% if user.user_request.all.count %}
         <p>Ваши запросы:</p>
             <div class="bs-example">
                 <div class="panel-group" id="accordion">
@@ -41,11 +43,15 @@
                                     <p>{{ obj.description }}</p>
                                     <p>{{ obj.preset }}</p>
                                     <p>{{ obj.format }}</p>
+                                    {% if obj.is_finish %}
+                                        <p>{{ obj.out_document }}</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
             </div>
-    {% endif %}
+        {% endif %}
+
 {% endblock %}
