@@ -17,13 +17,12 @@
                 </div>
             </a>
         </div>
-        {% if user.is_authenticated %}
+        {% if doc_name %}
             <p>Выберите файл для обработки:</p>
             <ul>
-                {% for obj in user.your_documents.all %}
+                {% for obj in doc_name %}
                     <li>
-                        <a href="{{ obj.document.url }}">{{ obj.document.name }}</a>
-                        <small>(Uploaded at: {{ obj.uploaded_at }})</small>
+                        <a href="{% url 'video_service:process' obj %}">{{ obj }}</a>
                     </li>
                 {% endfor %}
             </ul>

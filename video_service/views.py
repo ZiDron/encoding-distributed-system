@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import threading
+import os
 
-from .models import Document, Request
+from .models import Request
 from .forms import DocumentForm, RequestForm
 
 
 def home(request):
-    documents = Document.objects.all()
-    return render(request, 'video_service/home.html', {'documents': documents})
+    if request.user.is_authenticated:
+        documents = request.user.your_documents.all()
+        doc_name = [os.path.basename(i.document.name) for i in documents]
+        return render(request, 'video_service/home.html', {'doc_name': doc_name})
+    else:
+        return render(request, 'video_service/home.html')
 
 
 def process(request, name):
@@ -16,11 +22,12 @@ def process(request, name):
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.user = request.user
-                for i in Document.objects.all():
-                    if i.document.name == 'documents/' + name:
-                        obj.document = i
+                for doc in request.user.your_documents.all():
+                    if os.path.basename(doc.document.name) == name:
+                        obj.document = doc
                 obj.save()
-                obj.get_description()
+                thread = threading.Thread(target=obj.proceed_request)
+                thread.start()
                 return redirect('/')
         else:
             form = RequestForm()

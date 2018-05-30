@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Request {{ request.name }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}
+    Запрос {{ request.name }}
+{% endblock %}
 
-</body>
-</html>
