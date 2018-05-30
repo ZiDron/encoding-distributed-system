@@ -176,12 +176,15 @@ body {
     color: #EF3B3A;
 }
 
+.panel-default > .panel-heading {
+    background-color: white;
+}
 
 .card {
     font-size: 1em;
     /*overflow: hidden;*/
-    margin-left: 2%;
-    margin-right: 2%;
+    /*margin-left: 2%;*/
+    /*margin-right: 2%;*/
     padding: 0;
     border: none;
     border-radius: .28571429rem;
@@ -190,6 +193,8 @@ body {
 
 .card-block {
     font-size: 1em;
+    background-color: white;
+
     position: relative;
     margin: 0;
     padding: 1em;

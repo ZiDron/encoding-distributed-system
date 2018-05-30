@@ -2,6 +2,9 @@
 {% load i18n %}
 {% block content %}
             <div class="request-page">
+            <div class="input-group">
+                <div class="form-control">{{ form.title }}</div>
+            </div>
             <div class="form">
                 <form method="post" enctype="multipart/form-data"> {% csrf_token %}
                     <dl class="register">
@@ -10,9 +13,8 @@
                         <dt>{{ field.label_tag }}</dt>
                         <dd class="clearfix">{{ field }}</dd>
                     {% endfor %}
-                    <input type="submit" value="Загрузить" / class="clearfix">
-                    <button type="submit">Применить</button>
-                </form>
+                    <input type="submit" value="Обработать" / class="clearfix">
+                    </form>
             </div>
         </div>
 {% endblock %}
