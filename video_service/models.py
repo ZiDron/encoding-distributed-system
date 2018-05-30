@@ -9,7 +9,19 @@ def user_directory_path(instance, filename):
     return 'documents/{0}/{1}'.format(instance.user.username, filename)
 
 
-class Parameters(models.Model):
+class Document(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='your_documents', default=1)
+    description = models.CharField(max_length=255, blank=True)
+    document = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+
+class Request(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_request', default=1)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='requets_list')
+    title = models.CharField(max_length=255, blank=False, default='Title')
+    description = models.CharField(max_length=255, blank=True, default='')
+    # parameters
     PRESET = (
         ('ultrafast', 'ultrafast'),
         ('superfast', 'superfast'),
@@ -30,26 +42,12 @@ class Parameters(models.Model):
     format = models.CharField(max_length=32, choices=FORMAT, default='mp4')
 
 
-class Document(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='your_documents', default=1)
-    description = models.CharField(max_length=255, blank=True)
-    document = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension])
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-
-class Request(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_request', default=1)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='requets_list')
-    title = models.CharField(max_length=255, blank=False, default='Title')
-    description = models.CharField(max_length=255, blank=True, default='')
-    parameters = models.ForeignKey(Parameters, on_delete=models.CASCADE, related_name='request', null=True)
-
     def proceed_request(self):
         if self.description:
             process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -i \""
                             + self.document.document.path + "\" " +
-                            "-f " + self.parameters.format +
-                            " -vcodec libx264 -preset " + self.parameters.preset,
+                            "-f " + self.format +
+                            " -vcodec libx264 -preset " + self.preset,
                             shell=True, stdout=PIPE)
             data = process.communicate()
             print(data)
