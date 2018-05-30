@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from subprocess import Popen, PIPE
 import os
+from django.core.files import File
 
 from .validators import validate_file_extension
 
@@ -42,6 +43,8 @@ class Request(models.Model):
     preset = models.CharField(max_length=32, choices=PRESET, default='ultrafast')
     format = models.CharField(max_length=32, choices=FORMAT, default='mp4')
 
+    is_finish = models.BooleanField(default=False)
+    out_document = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='')
 
     def proceed_request(self):
         if self.description:
@@ -54,9 +57,10 @@ class Request(models.Model):
                                     ),
                             shell=True, stdout=PIPE)
             data = process.communicate()
-            print(data)
-
-
-# class Answer(models.Model):
-#     request = models.OneToOneField(Request, on_delete=models.CASCADE, related_name='answer')
-
+            self.is_finish = True
+            self.out_document.name = os.path.splitext(self.document.document.name)[0]\
+                                + os.path.splitext(self.document.document.name)[1][:-4]\
+                                + "_new." + self.format
+            print(self.out_document.name)
+            print(self.document.document.name)
+            self.save()
