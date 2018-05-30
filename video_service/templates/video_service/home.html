@@ -27,7 +27,6 @@
             {% endfor %}
         </ul>
         <p>Ваши запросы:</p>
-        <ul>
             <div class="bs-example">
                 <div class="panel-group" id="accordion">
                     {% for obj in user.user_request.all %}
@@ -48,6 +47,5 @@
                     {% endfor %}
                 </div>
             </div>
-        </ul>
     {% endif %}
 {% endblock %}
