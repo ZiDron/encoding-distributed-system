@@ -11,8 +11,8 @@ class DocumentForm(forms.ModelForm):
 class RequestForm(forms.ModelForm):
     class Meta:
         model = Request
-        fields = ('name', 'description',)
+        fields = ('user', 'document', 'title', 'description', 'parameters')
         labels = {
-            'name':  ('Название'),
-            'description': ('Описание'),
+            'title':  ('Заголовок'),
+            'description': ('Описание')
         }

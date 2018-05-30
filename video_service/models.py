@@ -9,6 +9,27 @@ def user_directory_path(instance, filename):
     return 'documents/{0}/{1}'.format(instance.user.username, filename)
 
 
+class Parameters(models.Model):
+    PRESET = (
+        ('ultrafast', 'ultrafast'),
+        ('superfast', 'superfast'),
+        ('veryfast', 'veryfast'),
+        ('faster', 'faster'),
+        ('fast', 'fast'),
+        ('medium', 'medium'),
+        ('slow', 'slow'),
+        ('slower', 'slower'),
+        ('veryslow', 'veryslow')
+    )
+    FORMAT = (
+        ('mp4', 'mp4'),
+        ('mkv', 'mkv')
+    )
+
+    preset = models.CharField(max_length=32, choices=PRESET, default='ultrafast')
+    format = models.CharField(max_length=32, choices=FORMAT, default='mp4')
+
+
 class Document(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='your_documents', default=1)
     description = models.CharField(max_length=255, blank=True)
@@ -19,16 +40,17 @@ class Document(models.Model):
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_request', default=1)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='requets_list')
-    name = models.CharField(max_length=255, blank=True)
-
-    description = models.BooleanField(default=False)
-    # video_to_images = models.BooleanField(default=False)
-    get_music = models.BooleanField(default=False)
+    title = models.CharField(max_length=255, blank=False, default='Title')
+    description = models.CharField(max_length=255, blank=True, default='')
+    parameters = models.ForeignKey(Parameters, on_delete=models.CASCADE, related_name='request', null=True)
 
     def proceed_request(self):
         if self.description:
             process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -i \""
-                            + self.document.document.path + "\"", shell=True, stdout=PIPE)
+                            + self.document.document.path + "\" " +
+                            "-f " + self.parameters.format +
+                            " -vcodec libx264 -preset " + self.parameters.preset,
+                            shell=True, stdout=PIPE)
             data = process.communicate()
             print(data)
 
