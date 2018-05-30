@@ -2,9 +2,9 @@
 {% load i18n %}
 {% block content %}
             <div class="request-page">
-            <div class="input-group">
-                <div class="form-control">{{ form.title }}</div>
-            </div>
+{#            <div class="input-group">#}
+{#                <div class="form-control">{{ form.title }}</div>#}
+{#            </div>#}
             <div class="form">
                 <form method="post" enctype="multipart/form-data"> {% csrf_token %}
                     <dl class="register">
