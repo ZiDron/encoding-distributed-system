@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from subprocess import Popen, PIPE
 import os
-from django.core.files import File
+from django.core.mail import send_mail
 
 from .validators import validate_file_extension
 
@@ -68,3 +68,10 @@ class Request(models.Model):
             print(self.out_document.name)
             print(self.document.document.name)
             self.save()
+            print(self.user.email)
+            send_mail('Обработка видео',
+                      'Ваш запрос <{0}> на обработку видео завершился.'.format(self.title),
+                      'iknow23103gmail.com',
+                      [self.user.email],
+                      fail_silently=False)
+
