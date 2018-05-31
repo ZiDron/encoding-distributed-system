@@ -89,8 +89,7 @@ def send_file(request, name):
 
 def show_profile(request):
     if request.user.is_authenticated:
-        user = get_object_or_404(User)
-        return render(request, 'video_service/profile.html', {'user': user})
+        return render(request, 'video_service/profile.html', {'user': request.user})
     else:
         return redirect('auth_login')
 
