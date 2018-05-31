@@ -48,7 +48,7 @@ class Request(models.Model):
 
     def proceed_request(self):
         if self.description:
-            process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -i \"{0}\" -f {1}"
+            process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -y -i \"{0}\" -f {1}"
                             " -vcodec libx264 -preset {2} \"{3}_new.{1}\""
                             .format(self.document.document.path,
                                     self.format,
