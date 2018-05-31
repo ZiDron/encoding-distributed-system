@@ -23,7 +23,7 @@ def home(request):
 def process(request, name):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = RequestForm(request.POST)
+            form = RequestForm(request.POST, user=request.user)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.user = request.user
@@ -42,13 +42,11 @@ def process(request, name):
     else:
         return redirect('auth_login')
 
-    return render(request, 'video_service/show_request.html')
-
 
 def model_form_upload(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            form = DocumentForm(request.POST, request.FILES)
+            form = DocumentForm(request.POST, request.FILES, user=request.user)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.user = request.user
@@ -69,4 +67,3 @@ def show_request(request, name):
         return render(request, 'video_service/show_request.html', {'request': user_request})
     else:
         return redirect('auth_login')
-    return render(request, 'video_service/show_request.html')
