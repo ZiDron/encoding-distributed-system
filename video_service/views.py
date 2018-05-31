@@ -95,9 +95,13 @@ def show_profile(request):
         bytes = sum(os.path.getsize(folder + f) for f in os.listdir(folder) if os.path.isfile(folder + f))
         megabytes =  bytes / 1024 / 1024
         space_usage = "{0:.2f}".format(megabytes) + " Мб"
+        computation_time: int = 0
+        for req in request.user.user_request.all():
+            computation_time += req.encoding_time
+        computation_time_str = str(computation_time) + ' мс'
         return render(request, 'video_service/profile.html', {'user': request.user,
                                                               'space_usage': space_usage,
-                                                              'computation_time': 0})
+                                                              'computation_time': computation_time_str})
     else:
         return redirect('auth_login')
 

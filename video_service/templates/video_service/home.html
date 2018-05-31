@@ -74,6 +74,10 @@
                                                     <input class="form-control" id="parameters" type="text" placeholder="{{ obj.format }}, crf {{ obj.crf }}, {{ obj.preset }}" readonly>
                                                 </div>
                                                 {% if obj.is_finish %}
+                                                    <div class="form-group">
+                                                    <label for="encoding_time">Время кодирования:</label>
+                                                    <input class="form-control" id="encoding_time" type="text" placeholder="{{ obj.encoding_time }} мс" readonly>
+                                                </div>
                                                     <a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}"><button type="button" class="btn btn-default btn-lg">
                                                         <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Загрузить</button></a>
                                                     {#                                    <p><a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}">{{ req_name|index:forloop.counter0 }}</a></p>#}

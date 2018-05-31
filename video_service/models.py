@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from subprocess import Popen, PIPE
 import os
+import time
 from django.core.mail import send_mail
 
 from .validators import validate_file_extension, validate_crf_value
@@ -46,12 +47,14 @@ class Request(models.Model):
     preset = models.CharField(max_length=32, choices=PRESET, default='ultrafast')
     format = models.CharField(max_length=32, choices=FORMAT, default='mp4')
     crf = models.IntegerField(default=23, validators=[validate_crf_value])
+    encoding_time = models.BigIntegerField(default=0)
 
     is_finish = models.BooleanField(default=False)
     out_document = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='')
 
     def proceed_request(self):
         if self.description:
+            start_time = time.time()
             process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -y -i \"{0}\" -f {1}"
                             " -vcodec libx264 -crf {5} -preset {2} \"{3}_{4}.{1}\""
                             .format(self.document.document.path,
@@ -64,6 +67,8 @@ class Request(models.Model):
                             shell=True, stdout=PIPE)
             data = process.communicate()
             self.is_finish = True
+            elapsed_time = int((time.time() - start_time) * 1000)
+            self.encoding_time = elapsed_time
             self.out_document.name = os.path.splitext(self.document.document.name)[0]\
                                 + os.path.splitext(self.document.document.name)[1][:-4]\
                                 + "_" + self.title + "." + self.format
