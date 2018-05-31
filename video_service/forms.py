@@ -33,12 +33,13 @@ class DocumentForm(forms.ModelForm):
 class RequestForm(forms.ModelForm):
     class Meta:
         model = Request
-        fields = ('title', 'description', 'format', 'preset')
+        fields = ('title', 'description', 'format', 'crf', 'preset')
         labels = {
-            'title':  ('Заголовок'),
-            'description': ('Описание'),
-            'format': ('Формат'),
-            'preset': ('preset')
+            'title': 'Заголовок',
+            'description': 'Описание',
+            'format': 'Формат',
+            'crf': 'crf',
+            'preset': 'preset'
         }
 
     def __init__(self, *args, **kwargs):

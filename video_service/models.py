@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 import os
 from django.core.mail import send_mail
 
-from .validators import validate_file_extension
+from .validators import validate_file_extension, validate_crf_value
 
 
 def user_directory_path(instance, filename):
@@ -45,6 +45,7 @@ class Request(models.Model):
 
     preset = models.CharField(max_length=32, choices=PRESET, default='ultrafast')
     format = models.CharField(max_length=32, choices=FORMAT, default='mp4')
+    crf = models.IntegerField(default=23, validators=[validate_crf_value])
 
     is_finish = models.BooleanField(default=False)
     out_document = models.FileField(upload_to=user_directory_path, validators=[validate_file_extension], default='')
@@ -52,12 +53,13 @@ class Request(models.Model):
     def proceed_request(self):
         if self.description:
             process = Popen("c:/ffmpeg-20180528-ebf85d3-win64-static/bin/ffmpeg.exe -y -i \"{0}\" -f {1}"
-                            " -vcodec libx264 -preset {2} \"{3}_{4}.{1}\""
+                            " -vcodec libx264 -crf {5} -preset {2} \"{3}_{4}.{1}\""
                             .format(self.document.document.path,
                                     self.format,
                                     self.preset,
                                     os.path.splitext(self.document.document.path)[0],
-                                    self.title
+                                    self.title,
+                                    str(self.crf)
                                     ),
                             shell=True, stdout=PIPE)
             data = process.communicate()

@@ -386,6 +386,7 @@ body {
     /*margin: 0 auto 100px;*/
     margin: 30px 0 0;
     padding-top: 20px;
+    padding-bottom: 20px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .divider {

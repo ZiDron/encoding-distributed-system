@@ -71,7 +71,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="parameters">Параметры:</label>
-                                                    <input class="form-control" id="parameters" type="text" placeholder="{{ obj.preset }}, {{ obj.format }}" readonly>
+                                                    <input class="form-control" id="parameters" type="text" placeholder="{{ obj.format }}, crf {{ obj.crf }}, {{ obj.preset }}" readonly>
                                                 </div>
                                                 {% if obj.is_finish %}
                                                     <a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}"><button type="button" class="btn btn-default btn-lg">

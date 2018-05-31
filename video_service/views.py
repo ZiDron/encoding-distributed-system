@@ -1,3 +1,4 @@
+from confusable_homoglyphs.utils import path
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, Http404
 from wsgiref.util import FileWrapper
 import threading
@@ -89,7 +90,14 @@ def send_file(request, name):
 
 def show_profile(request):
     if request.user.is_authenticated:
-        return render(request, 'video_service/profile.html', {'user': request.user})
+        folder = "{0}\\documents\\{1}\\".format(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0],
+                                                     request.user.username)
+        bytes = sum(os.path.getsize(folder + f) for f in os.listdir(folder) if os.path.isfile(folder + f))
+        megabytes =  bytes / 1024 / 1024
+        space_usage = "{0:.2f}".format(megabytes) + " Мб"
+        return render(request, 'video_service/profile.html', {'user': request.user,
+                                                              'space_usage': space_usage,
+                                                              'computation_time': 0})
     else:
         return redirect('auth_login')
 
