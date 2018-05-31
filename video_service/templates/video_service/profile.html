@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    Hello profile!
+ <dt>{{ user.username }}</dt>
+    <dt>{{ user.email }}</dt>
+    <dt>{{ user.date_joined }}</dt>
+{% endblock %}

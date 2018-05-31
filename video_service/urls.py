@@ -12,6 +12,7 @@ urlpatterns = [
     path('documents/<str:name>/', views.process, name='process'),
     path('request/<str:name>/', views.show_request, name='show_request'),
     path('downloads/<str:name>/', views.send_file, name='send_file'),
+    path('profile/', views.show_profile, name='show_profile'),
 
     # path('downloads/<str:name>/', views.show_request, name='show_request'),
     # path('', views.IndexView.as_view(), name='index'),

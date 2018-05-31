@@ -15,7 +15,7 @@
         {% endif %}
 
         <div class="login-page">
-            <div class="form">
+            <div class="narrow-form">
                 <form class="login-form" method="post" action=""> {% csrf_token %}
                     <dl class="register">
                     </dl>
@@ -25,7 +25,6 @@
                     {% endfor %}
                     <input type="submit" value="Вход" / class="clearfix">
                     <p class="message"><a href="{% url 'registration_register' %}">Регистрация</a></p>
-                    <p class="message"><a href="{% url 'auth_password_reset' %}">Восстановление пароля</a></p>
                 </form>
             </div>
         </div>

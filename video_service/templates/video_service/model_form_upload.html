@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
+    <div class="upload-page">
+    <div class="wide-form">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+    <input type="submit" value="Загрузить"></input>
   </form>
-
-  <p><a href="{% url 'video_service:home' %}">Вернуться домой</a></p>
+    </div>
+    </div>
 
 {% endblock %}

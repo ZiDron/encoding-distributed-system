@@ -1,8 +1,15 @@
-{% extends "base.html"  %}
-{% block title %}
-Выход
-{% endblock %}
-{% block content %}
-<h1>Выход</h1>
-Спасибо, что были с нами. Ждем вас снова. Перейти на главную <a href="{% url 'video_service:home' %}">страницу</a> <br/><br/>
-{% endblock %}
+{#{% extends "base.html"  %}#}
+{#{% block title %}#}
+{#Выход#}
+{#{% endblock %}#}
+{#{% block content %}#}
+{#<h1>Выход</h1>#}
+{#Спасибо, что были с нами. Ждем вас снова. Перейти на главную <a href="">страницу</a> <br/><br/>#}
+{#{% endblock %}#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="refresh" content="0; url={% url 'video_service:home' %}" />
+</head>
+</html>

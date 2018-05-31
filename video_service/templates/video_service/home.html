@@ -18,42 +18,49 @@
             </div>
         </a>
     </div>
-    {% if doc_name %}
+    {% if docs %}
         <p>Выберите файл для обработки:</p>
         <ul>
-            {% for obj in doc_name %}
+            {% for name, description in docs %}
                 <li>
-                    <a href="{% url 'video_service:process' obj %}">{{ obj }}</a>
+                    <a href="{% url 'video_service:process' name %}">{{ description }} ({{ name }})</a>
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
-        {% if req_name %}
-            <p>Ваши запросы:</p>
-                <div class="bs-example">
-                    <div class="panel-group" id="accordion">
-                        {% for obj in user.user_request.all %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ obj.id }}">{{ obj.title }}</a>
-                                    </h4>
-                                </div>
-                                <div id="collapse{{ obj.id }}" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <p>{{ obj.description }}</p>
-                                        <p>{{ obj.preset }}</p>
-                                        <p>{{ obj.format }}</p>
-                                        <p>{{ obj.is_finish }}</p>
-                                        {% if obj.is_finish %}
-                                            <p><a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}">{{ req_name|index:forloop.counter0 }}</a></p>
-                                        {% endif %}
+    {% if req_name %}
+        <p>Ваши запросы:</p>
+        <div class="bs-example">
+            <div class="panel-group" id="accordion">
+                {% for obj in user.user_request.all %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ obj.id }}">{{ obj.title }}</a>
+                            </h4>
+                        </div>
+                        <div id="collapse{{ obj.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p>{{ obj.description }}</p>
+                                <p>{{ obj.preset }}</p>
+                                <p>{{ obj.format }}</p>
+                                {% if obj.is_finish %}
+                                    <a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}"><button type="button" class="btn btn-default btn-lg">
+                                        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Загрузить</button></a>
+{#                                    <p><a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}">{{ req_name|index:forloop.counter0 }}</a></p>#}
+                                {% else %}
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                            <span class="sr-only">Обработка</span>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
-                </div>
-        {% endif %}
+                {% endfor %}
             </div>
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

@@ -7,6 +7,10 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         fields = ('description', 'document')
+        labels = {
+            'description': 'Описание',
+            'document': 'Файл'
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)

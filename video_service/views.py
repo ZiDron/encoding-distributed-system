@@ -4,6 +4,7 @@ import threading
 import os
 
 from .models import Request
+from django.contrib.auth.models import User
 from .forms import DocumentForm, RequestForm
 
 
@@ -11,10 +12,12 @@ def home(request):
     if request.user.is_authenticated:
         documents = request.user.your_documents.all()
         doc_name = [os.path.basename(i.document.name) for i in documents]
+        titles = [i.description for i in documents]
         requests = request.user.user_request.all()
         request_name = [os.path.basename(i.out_document.name) for i in requests]
         print(request_name)
         return render(request, 'video_service/home.html', {'doc_name': doc_name,
+                                                           'docs': zip(doc_name, titles),
                                                            'req_name': request_name},
                       )
     else:
@@ -82,3 +85,12 @@ def send_file(request, name):
             response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
             return response
     raise Http404()
+
+
+def show_profile(request):
+    if request.user.is_authenticated:
+        user = get_object_or_404(User)
+        return render(request, 'video_service/profile.html', {'user': user})
+    else:
+        return redirect('auth_login')
+
