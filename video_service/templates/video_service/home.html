@@ -45,7 +45,7 @@
                                         <p>{{ obj.preset }}</p>
                                         <p>{{ obj.format }}</p>
                                         <p>{{ obj.is_finish }}</p>
-                                        <p>{{ req_name|index:forloop.counter0 }}</p>
+                                        <p><a href="{% url 'video_service:send_file' req_name|index:forloop.counter0 %}">{{ req_name|index:forloop.counter0 }}</a></p>
                                     </div>
                                 </div>
                             </div>

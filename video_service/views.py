@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, Http404
+from wsgiref.util import FileWrapper
 import threading
 import os
 
@@ -67,3 +68,17 @@ def show_request(request, name):
         return render(request, 'video_service/show_request.html', {'request': user_request})
     else:
         return redirect('auth_login')
+
+
+def send_file(request, name):
+    if request.user.is_authenticated:
+        print(os.path.split(os.path.abspath(os.path.dirname(__file__))))
+        if request.method == 'GET':
+            filename = "{0}\\documents\\{1}\\{2}".format(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0],
+                                                         request.user.username,
+                                                         name)
+            file = FileWrapper(open(filename, 'rb'))
+            response = HttpResponse(file, content_type='video/mp4')
+            response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
+            return response
+    raise Http404()

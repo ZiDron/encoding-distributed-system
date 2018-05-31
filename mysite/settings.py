@@ -145,3 +145,9 @@ LOGIN_REDIRECT_URL = '/'
 # DEFAULT_FROM_EMAIL = 'info@google.ru'
 
 LANGUAGE_CODE = 'ru-RU'
+
+MEDIA_ROOT = ''
+MEDIA_URL = 'http://127.0.0.1:8000/'
+
+_PATH = os.path.abspath(os.path.dirname(__file__))
+MEDIA_URL = '/media/'
