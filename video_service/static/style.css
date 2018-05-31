@@ -74,8 +74,8 @@ body {
 }
 
 .content {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin: auto;
+    max-width: 1000px   ;
 }
 
 .login-page,.register-page {
