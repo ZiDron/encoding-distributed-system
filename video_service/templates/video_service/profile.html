@@ -1,9 +1,31 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+<link rel="stylesheet" type="text/css" href="" />
+
 {% block content %}
-    Hello profile!
- <dt>{{ user.username }}</dt>
-    <dt>{{ user.email }}</dt>
-    <dt>{{ user.date_joined }}</dt>
+{#	<div class="narrow-form">#}
+    <div class="row">
+
+		<div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+    	 <div class="profile">
+            <div class="col-sm-12" style="padding-left: 30px; padding-right: 30px">
+                <div class="col-xs-12 col-sm-8">
+                    <h2>{{ user.username }}</h2>
+                    <p><strong>email: </strong> {{ user.email }} </p>
+                    <p><strong>Регистрация: </strong> {{ user.date_joined }}</p>
+                </div>
+                <div class="col-xs-12 col-sm-4 text-center">
+                    <figure>
+                        {% load static %}
+                        <img src="{% static 'profile.png' %}" alt="" class="img-circle img-responsive">
+                    </figure>
+                </div>
+            </div>
+    	 </div>
+		</div>
+{#	</div>#}
+    </div>
+
+
 {% endblock %}
